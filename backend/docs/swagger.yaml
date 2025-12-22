@@ -1,0 +1,175 @@
+basePath: /
+definitions:
+  rest.BinaryOperand:
+    properties:
+      a:
+        example: 12.3
+        type: number
+      b:
+        example: 4.5
+        type: number
+    required:
+    - a
+    - b
+    type: object
+  rest.ErrorResponse:
+    properties:
+      error:
+        example: invalid input
+        type: string
+    type: object
+  rest.Response:
+    properties:
+      result:
+        example: 8.9
+        type: number
+    type: object
+  rest.UnaryOperand:
+    properties:
+      a:
+        example: 6.7
+        type: number
+    required:
+    - a
+    type: object
+host: localhost:3001
+info:
+  contact: {}
+  description: A REST API service that provides calculator operations
+  title: Calculator API
+  version: "1.0"
+paths:
+  /v1/add:
+    post:
+      parameters:
+      - description: Operands
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/rest.BinaryOperand'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/rest.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/rest.ErrorResponse'
+      summary: Add two numbers
+  /v1/divide:
+    post:
+      parameters:
+      - description: Operands
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/rest.BinaryOperand'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/rest.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/rest.ErrorResponse'
+      summary: Divide two numbers
+  /v1/multiply:
+    post:
+      parameters:
+      - description: Operands
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/rest.BinaryOperand'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/rest.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/rest.ErrorResponse'
+      summary: Multiply two numbers
+  /v1/percentage:
+    post:
+      parameters:
+      - description: Operands
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/rest.BinaryOperand'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/rest.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/rest.ErrorResponse'
+      summary: Percentage calculation
+  /v1/power:
+    post:
+      parameters:
+      - description: Operands
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/rest.BinaryOperand'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/rest.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/rest.ErrorResponse'
+      summary: Power operation
+  /v1/sqrt:
+    post:
+      parameters:
+      - description: Operand
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/rest.UnaryOperand'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/rest.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/rest.ErrorResponse'
+      summary: Square root
+  /v1/subtract:
+    post:
+      parameters:
+      - description: Operands
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/rest.BinaryOperand'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/rest.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/rest.ErrorResponse'
+      summary: Subtract two numbers
+swagger: "2.0"

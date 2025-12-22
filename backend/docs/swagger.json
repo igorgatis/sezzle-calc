@@ -1,0 +1,272 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "A REST API service that provides calculator operations",
+        "title": "Calculator API",
+        "contact": {},
+        "version": "1.0"
+    },
+    "host": "localhost:3001",
+    "basePath": "/",
+    "paths": {
+        "/v1/add": {
+            "post": {
+                "summary": "Add two numbers",
+                "parameters": [
+                    {
+                        "description": "Operands",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/rest.BinaryOperand"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/rest.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/rest.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/divide": {
+            "post": {
+                "summary": "Divide two numbers",
+                "parameters": [
+                    {
+                        "description": "Operands",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/rest.BinaryOperand"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/rest.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/rest.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/multiply": {
+            "post": {
+                "summary": "Multiply two numbers",
+                "parameters": [
+                    {
+                        "description": "Operands",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/rest.BinaryOperand"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/rest.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/rest.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/percentage": {
+            "post": {
+                "summary": "Percentage calculation",
+                "parameters": [
+                    {
+                        "description": "Operands",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/rest.BinaryOperand"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/rest.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/rest.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/power": {
+            "post": {
+                "summary": "Power operation",
+                "parameters": [
+                    {
+                        "description": "Operands",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/rest.BinaryOperand"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/rest.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/rest.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/sqrt": {
+            "post": {
+                "summary": "Square root",
+                "parameters": [
+                    {
+                        "description": "Operand",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/rest.UnaryOperand"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/rest.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/rest.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/subtract": {
+            "post": {
+                "summary": "Subtract two numbers",
+                "parameters": [
+                    {
+                        "description": "Operands",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/rest.BinaryOperand"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/rest.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/rest.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "rest.BinaryOperand": {
+            "type": "object",
+            "required": [
+                "a",
+                "b"
+            ],
+            "properties": {
+                "a": {
+                    "type": "number",
+                    "example": 12.3
+                },
+                "b": {
+                    "type": "number",
+                    "example": 4.5
+                }
+            }
+        },
+        "rest.ErrorResponse": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string",
+                    "example": "invalid input"
+                }
+            }
+        },
+        "rest.Response": {
+            "type": "object",
+            "properties": {
+                "result": {
+                    "type": "number",
+                    "example": 8.9
+                }
+            }
+        },
+        "rest.UnaryOperand": {
+            "type": "object",
+            "required": [
+                "a"
+            ],
+            "properties": {
+                "a": {
+                    "type": "number",
+                    "example": 6.7
+                }
+            }
+        }
+    }
+}

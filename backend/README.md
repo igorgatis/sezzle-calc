@@ -1,0 +1,52 @@
+# Backend Service
+
+A REST API service written in Go that provides calculator.
+
+## Configuration
+
+Environment variables:
+
+| Variable         | Description         | Default |
+| ---------------- | ------------------- | ------- |
+| `PORT`           | Port to listen on   | 3001    |
+| `ALLOW_CORS`     | Enable CORS headers | false   |
+| `ENABLE_SWAGGER` | Enable Swagger UI   | false   |
+
+## Requirements
+
+- Go 1.24+
+- Make
+
+Hint: Use [mise](https://mise.jdx.dev/getting-started.html) to resolve
+development tools: `mise install`
+
+## Development
+
+Run `make help` to see the list of available targets.
+
+During developing, you should run:
+
+```bash
+make pre-submit
+```
+
+This target fixes issues, builds the service and generates test code coverage
+report.
+
+## Running Locally
+
+```bash
+make run
+```
+
+This make target sets `ENABLE_SWAGGER=true` and thus exposes the API Swagger
+documentation at http://localhost:3001/swagger/index.html
+
+## Coverage
+
+Make sure unittests coverage the happy path and corner cases. Aim for at least
+90% coverage. To open code codeverage report in browser, run:
+
+```bash
+make open-coverage
+```

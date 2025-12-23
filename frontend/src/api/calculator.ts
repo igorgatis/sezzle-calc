@@ -1,4 +1,4 @@
-const API_BASE = process.env.REACT_APP_CALCULATOR_REST_API_V1_URL;
+const API_BASE = '/api';
 
 interface BinaryRequest {
   a: string;

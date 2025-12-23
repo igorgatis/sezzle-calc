@@ -10,14 +10,17 @@ RUN pnpm install --frozen-lockfile
 
 FROM deps AS builder
 COPY . .
-RUN pnpm run build
+RUN pnpm run build && pnpm run build:server
 
 FROM deps AS test
 COPY . .
 RUN pnpm test
 
-FROM nginx:alpine AS release
-COPY --from=builder /app/build /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+FROM base AS release
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY --from=builder /app/build ./build
+COPY --from=builder /app/dist ./dist
+COPY package.json ./
+EXPOSE 3000
+CMD ["node", "dist/server.js"]

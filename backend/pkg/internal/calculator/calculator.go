@@ -7,8 +7,8 @@ import (
 
 var (
 	ErrDivisionByZero     = errors.New("division by zero")
-	ErrNegativeSqrt       = errors.New("cannot compute square root of negative number")
-	ErrNegativePercentage = errors.New("negative percentage not allowed")
+	ErrNegativeSqrt       = errors.New("sqrt negative number")
+	ErrNegativePercentage = errors.New("negative percentage")
 )
 
 type Calculator interface {

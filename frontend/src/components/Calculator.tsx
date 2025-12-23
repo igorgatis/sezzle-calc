@@ -1,6 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { CalculatorState, CalculatorSnapshot } from '../calculator/CalculatorState';
-import { isInstruction } from '../calculator/Instructions';
+import { CalculatorState, CalculatorSnapshot, isInstruction } from '../calculator/CalculatorState';
 
 const numBtnClass = `
   bg-gray-600 hover:bg-gray-500 active:bg-gray-400
@@ -56,26 +55,29 @@ function Calculator() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [calc]);
 
-  const entryText = calc.getEntry();
-  const getEntryTextSize = (text: string) => {
+  const expression = calc.getExpression();
+  const displayText = calc.getDisplay();
+  const getTextSize = (text: string) => {
     const len = text.length;
-    if (len <= 8) return 'text-4xl';
-    if (len <= 12) return 'text-3xl';
-    if (len <= 16) return 'text-2xl';
-    return 'text-xl';
+    if (len <= 14) return 'text-3xl';
+    if (len <= 18) return 'text-2xl';
+    if (len <= 21) return 'text-xl';
+    if (len <= 24) return 'text-lg';
+    if (len <= 27) return 'text-base';
+    return 'text-sm';
   };
 
   return (
     <div className="min-h-screen bg-black flex items-center justify-center p-4">
       <div className="bg-neutral-900 rounded-3xl p-6 w-full max-w-sm shadow-2xl">
         <div className="bg-neutral-800 rounded-2xl p-4 mb-4 min-h-[100px] flex flex-col justify-end">
-          <div className="text-gray-400 text-right text-lg font-mono h-6 overflow-hidden">
-            {calc.getMemory()}
+          <div className={`text-gray-400 text-right font-mono break-all h-6 ${getTextSize(expression)}`}>
+            {expression}
           </div>
           <div
-            className={`text-white text-right font-mono mt-2 break-all ${getEntryTextSize(entryText)}`}
+            className={`text-white text-right font-mono mt-2 break-all ${getTextSize(displayText)}`}
             data-testid="display">
-            {entryText}
+            {displayText}
           </div>
         </div>
 

@@ -34,6 +34,11 @@ func NewRest(cfg Config) *restService {
 	engine := gin.New()
 	engine.Use(gin.Recovery())
 
+	engine.Use(func(c *gin.Context) {
+		c.Next()
+		log.Printf("%s %s -> %d", c.Request.Method, c.Request.URL.Path, c.Writer.Status())
+	})
+
 	if cfg.AllowCORS {
 		log.Println("CORS headers enabled")
 		engine.Use(rest.CORSMiddleware())

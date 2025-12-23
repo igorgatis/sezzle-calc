@@ -2,6 +2,7 @@ package rest
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 	"strconv"
 
@@ -123,6 +124,7 @@ func binaryOpErr(op func(a, b float64) (float64, error)) gin.HandlerFunc {
 			writeErrorResponse(c, err)
 			return
 		}
+		log.Printf("%q\n", input)
 		a, err := input.A.Float64()
 		if err != nil {
 			writeErrorResponse(c, err) // Should never happen.

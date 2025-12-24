@@ -2,3 +2,14 @@
 go = "1.24"
 node = "22"
 pnpm = "9"
+
+[tasks.clean]
+description = "Remove all untracked files"
+run = "git clean -f -x -d"
+
+[tasks.pre-submit]
+description = "Run pre-submit checks on backend and frontend"
+run = """
+cd backend && make pre-submit
+cd frontend && pnpm pre-submit
+"""

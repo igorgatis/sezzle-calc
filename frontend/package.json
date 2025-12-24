@@ -9,7 +9,7 @@
     "check:lint": "next lint",
     "clean": "git clean -f -x -d",
     "deps": "pnpm dedupe",
-    "dev": "next dev",
+    "dev": "CALCULATOR_REST_API_V1_URL=http://localhost:3001/v1 next dev",
     "fix": "pnpm fix:format && pnpm fix:lint",
     "fix:format": "prettier --write 'src/**/*.{ts,tsx,js,jsx,json,css}'",
     "fix:lint": "next lint --fix",

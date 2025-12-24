@@ -13,8 +13,6 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
-ARG CALCULATOR_REST_API_V1_URL=http://backend:3001/v1
-ENV CALCULATOR_REST_API_V1_URL=${CALCULATOR_REST_API_V1_URL}
 RUN pnpm build
 
 FROM base AS release

@@ -36,37 +36,12 @@ All required and optional operations are implemented:
   scenarios.
 
 ### TypeScript Frontend
-- Uses **Next.js** despite the app's simplicity. It made serving static assets and proxying
-  API calls straightforward.
-- The Calculator UI implements a **State Machine** (`CalculatorState` class) that processes
-  instructions (keystrokes) and updates internal state:
-  - **State:** `display`, `operand`, `operator`, `resetDisplay`, `error`, `processing`
-  - **Instructions:** digits (`0-9.`), operators (`+-*/^%`), and commands (`c`lear,
-    `d`elete, `s`qrt, `t`oggle sign, `=`)
-  - Transitions occur on each instruction, with async API calls for calculations.
-- The state machine calls the backend API directly. A better implementation would use an
-  interface to decouple from the backend and simplify testing (though mocking was easy).
+- Uses **Next.js** for serving static assets and proxying API calls.
+- See [frontend/README.md](./frontend/README.md) for design details.
 
-## API Examples
+## API
 
-The backend exposes REST endpoints at `/v1/calc/*`. Examples:
-
-```bash
-# Addition
-curl "http://localhost:3001/v1/calc/add?a=5&b=3"
-# {"result":"8"}
-
-# Division
-curl "http://localhost:3001/v1/calc/divide?a=10&b=2"
-# {"result":"5"}
-
-# Square Root
-curl "http://localhost:3001/v1/calc/sqrt?a=16"
-# {"result":"4"}
-```
-
-Run `make run` in the backend folder to enable Swagger UI at
-http://localhost:3001/swagger/index.html for full API documentation.
+See [backend/README.md](./backend/README.md) for API examples and documentation.
 
 ## Testing
 
@@ -94,5 +69,6 @@ You may bring all services up using:
 ```bash
 docker compose up
 ```
+Then open http://localhost:3000 in your browser.
 
 To run each service outside of Docker, check the service's README.md file.

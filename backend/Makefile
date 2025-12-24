@@ -20,7 +20,6 @@ build: swagger
 ## run: runs server locally
 run: swagger
 	ENABLE_SWAGGER=true \
-	ALLOW_CORS=true \
 	go run cmd/server/main.go
 
 ## test: Run tests with verbose output.

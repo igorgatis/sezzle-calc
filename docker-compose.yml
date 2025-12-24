@@ -4,14 +4,14 @@ services:
       context: ./backend
     ports:
       - "3001:3001"
+    environment:
+      - ENABLE_SWAGGER=true
     restart: unless-stopped
     init: true
 
   frontend:
     build:
       context: ./frontend
-      args:
-        CALCULATOR_REST_API_V1_URL: http://backend:3001/v1
     ports:
       - "3000:3000"
     environment:

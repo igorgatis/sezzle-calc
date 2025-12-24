@@ -42,6 +42,24 @@ make run
 This make target sets `ENABLE_SWAGGER=true` and thus exposes the API Swagger
 documentation at http://localhost:3001/swagger/index.html
 
+## API Examples
+
+The backend exposes REST endpoints at `/v1/*`. Examples:
+
+```bash
+# Addition
+curl -X POST http://localhost:3001/v1/add -d '{"a":5,"b":3}'
+# {"result":"8"}
+
+# Division
+curl -X POST http://localhost:3001/v1/divide -d '{"a":10,"b":2}'
+# {"result":"5"}
+
+# Square Root
+curl -X POST http://localhost:3001/v1/sqrt -d '{"a":16}'
+# {"result":"4"}
+```
+
 ## Coverage
 
 Make sure unittests coverage the happy path and corner cases. Aim for at least

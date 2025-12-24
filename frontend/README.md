@@ -59,3 +59,15 @@ Browser -> Next.js (:3000) -> Go Backend (:3001)
 
 API calls from the browser go to `/api/*` which are proxied to the backend at
 `CALCULATOR_REST_API_V1_URL`.
+
+## Design
+
+The Calculator UI implements a state machine (`CalculatorState` class) that processes
+instructions (keystrokes) and updates internal state:
+- **State:** `display`, `operand`, `operator`, `resetDisplay`, `error`, `processing`
+- **Instructions:** digits (`0-9.`), operators (`+-*/^%`), and commands (`c`lear,
+  `d`elete, `s`qrt, `t`oggle sign, `=`)
+- Transitions occur on each instruction, with async API calls for calculations.
+
+The state machine calls the backend API directly. A better implementation would use an
+interface to decouple from the backend and simplify testing (though mocking was easy).

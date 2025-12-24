@@ -8,6 +8,7 @@
     "check:format": "prettier --check 'src/**/*.{ts,tsx,js,jsx,json,css}'",
     "check:lint": "next lint",
     "clean": "git clean -f -x -d",
+    "deps": "pnpm dedupe",
     "dev": "next dev",
     "fix": "pnpm fix:format && pnpm fix:lint",
     "fix:format": "prettier --write 'src/**/*.{ts,tsx,js,jsx,json,css}'",

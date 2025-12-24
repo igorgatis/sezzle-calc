@@ -2,19 +2,23 @@
 // Proxy route - not unit tested (thin glue code, better suited for integration tests)
 import { NextRequest, NextResponse } from "next/server";
 
-if (!process.env.CALCULATOR_REST_API_V1_URL) {
-  throw new Error("CALCULATOR_REST_API_V1_URL environment variable is required");
-}
-
-const BACKEND_URLS: Record<string, string> = {
-  v1: process.env.CALCULATOR_REST_API_V1_URL,
+const BACKEND_ENV_VARS: Record<string, string> = {
+  v1: "CALCULATOR_REST_API_V1_URL",
 };
+
+const BACKEND_URLS: Record<string, string | undefined> = Object.fromEntries(
+  Object.entries(BACKEND_ENV_VARS).map(([k, v]) => [k, process.env[v]]),
+);
 
 async function proxyRequest(request: NextRequest, path: string[]) {
   const [version, ...rest] = path;
+  if (!(version in BACKEND_ENV_VARS)) {
+    return NextResponse.json({ error: "Unknown API version" }, { status: 404 });
+  }
   const baseUrl = BACKEND_URLS[version];
   if (!baseUrl) {
-    return NextResponse.json({ error: "Unknown API version" }, { status: 404 });
+    console.error(`Environment variable ${BACKEND_ENV_VARS[version]} is not set`);
+    return NextResponse.json({ error: "Backend not configured" }, { status: 503 });
   }
   const endpoint = rest.join("/");
   const url = `${baseUrl}/${endpoint}`;

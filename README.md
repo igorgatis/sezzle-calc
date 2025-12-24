@@ -1,6 +1,8 @@
 # Calculator Services
 A full-stack calculator application.
 
+<video src="docs/images/demo.mp4" controls></video>
+
 This repository has the following revelant folders:
 * [docs](./docs/): relvent documentation meant for humans and AI.
 * [backend](./backend/README.md): Go service which provides backend functionality.

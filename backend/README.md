@@ -6,11 +6,12 @@ A REST API service written in Go that provides calculator.
 
 Environment variables:
 
-| Variable         | Description         | Default |
-| ---------------- | ------------------- | ------- |
-| `PORT`           | Port to listen on   | 3001    |
-| `ALLOW_CORS`     | Enable CORS headers | false   |
-| `ENABLE_SWAGGER` | Enable Swagger UI   | false   |
+| Variable              | Description                      | Default |
+| --------------------- | -------------------------------- | ------- |
+| `PORT`                | Port to listen on                | 3001    |
+| `ALLOW_CORS`          | Enable CORS headers              | false   |
+| `ENABLE_SWAGGER`      | Enable Swagger UI                | false   |
+| `ARTIFICIAL_DELAY_MS` | Max random delay in ms (0=off)   | 0       |
 
 ## Requirements
 
@@ -22,9 +23,9 @@ development tools: `mise install`
 
 ## Development
 
-Run `make help` to see the list of available targets.
+Key make targets: `make build`, `make test`, `make run`. Run `make help` for all.
 
-During developing, you should run:
+Before submitting changes:
 
 ```bash
 make pre-submit

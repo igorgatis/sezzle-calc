@@ -8,9 +8,10 @@ import (
 )
 
 type Config struct {
-	Port          int
-	AllowCORS     bool
-	EnableSwagger bool
+	Port              int
+	AllowCORS         bool
+	EnableSwagger     bool
+	ArtificialDelayMs int
 }
 
 // NOTE FOR REVIEWER:
@@ -38,9 +39,10 @@ func (p *parser) Parse(args []string) Config {
 		fmt.Fprintf(out, "Usage of %s:\n", args[0])
 		fs.PrintDefaults()
 		fmt.Fprintln(out, "\nEnvironment variables:")
-		fmt.Fprintln(out, "  PORT        port to listen on (default: 3001)")
-		fmt.Fprintln(out, "  ALLOW_CORS      set to 'true' to enable CORS headers (default: false)")
-		fmt.Fprintln(out, "  ENABLE_SWAGGER  set to 'true' to enable Swagger UI (default: false)")
+		fmt.Fprintln(out, "  PORT                 port to listen on (default: 3001)")
+		fmt.Fprintln(out, "  ALLOW_CORS           set to 'true' to enable CORS headers (default: false)")
+		fmt.Fprintln(out, "  ENABLE_SWAGGER       set to 'true' to enable Swagger UI (default: false)")
+		fmt.Fprintln(out, "  ARTIFICIAL_DELAY_MS  max random delay in ms (default: 0, disabled)")
 	}
 	help := fs.Bool("help", false, "print help and exit")
 	_ = fs.Parse(args[1:])
@@ -54,9 +56,10 @@ func (p *parser) Parse(args []string) Config {
 		p.ExitFn(1)
 	}
 	return Config{
-		Port:          getEnv("PORT", 3001, strconv.Atoi, errorFn),
-		AllowCORS:     getEnv("ALLOW_CORS", false, strconv.ParseBool, errorFn),
-		EnableSwagger: getEnv("ENABLE_SWAGGER", false, strconv.ParseBool, errorFn),
+		Port:              getEnv("PORT", 3001, strconv.Atoi, errorFn),
+		AllowCORS:         getEnv("ALLOW_CORS", false, strconv.ParseBool, errorFn),
+		EnableSwagger:     getEnv("ENABLE_SWAGGER", false, strconv.ParseBool, errorFn),
+		ArtificialDelayMs: getEnv("ARTIFICIAL_DELAY_MS", 0, strconv.Atoi, errorFn),
 	}
 }
 

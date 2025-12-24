@@ -20,6 +20,7 @@ build: swagger
 ## run: runs server locally
 run: swagger
 	ENABLE_SWAGGER=true \
+	ARTIFICIAL_DELAY_MS=1000 \
 	go run cmd/server/main.go
 
 ## test: Run tests with verbose output.

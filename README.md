@@ -34,6 +34,7 @@ All required and optional operations are implemented:
 - Business logic is isolated from HTTP layer, enabling alternative transports (e.g., gRPC).
 - Configuration via environment variables. Could be improved with Viper for more complex
   scenarios.
+- Uses Makefile for build tasks to avoid imposing mise on all developers.
 
 ### TypeScript Frontend
 - Uses **Next.js** for serving static assets and proxying API calls.
@@ -60,7 +61,14 @@ Each individual service has its own README.md with details how to setup, build,
 test and develop each service.
 
 For convenience, you install [mise](https://mise.jdx.dev/getting-started.html)
-and run `mise install` to resolve all development tools.
+and run `mise trust && mise install` to resolve all development tools.
+
+Available mise tasks:
+- `mise run deps` - Install dependencies for backend and frontend
+- `mise run docker-up` - Start all services with docker compose
+- `mise run docker-down` - Stop all services
+- `mise run pre-submit` - Run pre-submit checks
+- `mise run clean` - Remove all untracked files
 
 Hint: if need an isoloted environment, try the provided devcontainer.
 

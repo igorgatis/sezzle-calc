@@ -10,6 +10,21 @@ run = "git clean -f -x -d"
 [tasks.pre-submit]
 description = "Run pre-submit checks on backend and frontend"
 run = """
-cd backend && make pre-submit
-cd frontend && pnpm pre-submit
+(cd backend && make pre-submit)
+(cd frontend && pnpm pre-submit)
 """
+
+[tasks.deps]
+description = "Install dependencies for backend and frontend"
+run = """
+(cd backend && make deps)
+(cd frontend && pnpm deps)
+"""
+
+[tasks.docker-up]
+description = "Start all services with docker compose"
+run = "docker compose up"
+
+[tasks.docker-down]
+description = "Stop all services with docker compose"
+run = "docker compose down"

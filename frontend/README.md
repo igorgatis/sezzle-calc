@@ -21,14 +21,16 @@ development tools: `mise install`
 
 ## Development
 
-During development, you should run:
+Key pnpm scripts: `pnpm build`, `pnpm test`, `pnpm dev`. Run `pnpm run` for all.
+
+Before submitting changes:
 
 ```bash
 pnpm pre-submit
 ```
 
-This installs dependencies, builds the application and generates test coverage
-report.
+This installs dependencies, fixes issues, builds the application and generates
+test coverage report.
 
 ## Running Locally
 
@@ -46,7 +48,7 @@ Make sure unit tests cover the happy path and corner cases. To open the code
 coverage report in browser, run:
 
 ```bash
-pnpm test:coverage-open
+pnpm test:coverage:open
 ```
 
 ## Architecture

@@ -4,8 +4,8 @@ import React, { useRef, useState, useEffect } from "react";
 import { CalculatorState, CalculatorSnapshot, isInstruction } from "@/lib/calculator-state";
 
 const numBtnBase = `
-  text-white text-2xl font-medium
-  rounded-full h-16 w-full
+  text-white text-2xl md:text-3xl font-medium
+  rounded-full h-16 md:h-20 lg:h-24 w-full
   transition-colors duration-100
 `;
 
@@ -13,8 +13,8 @@ const numBtnEnabled = `bg-gray-600 hover:bg-gray-500 active:bg-gray-400`;
 const numBtnDisabled = `bg-gray-700 opacity-50 cursor-not-allowed`;
 
 const opBtnBase = `
-  text-white text-2xl font-medium
-  rounded-full h-16 w-full
+  text-white text-2xl md:text-3xl font-medium
+  rounded-full h-16 md:h-20 lg:h-24 w-full
   transition-colors duration-100
 `;
 
@@ -22,8 +22,8 @@ const opBtnEnabled = `bg-orange-500 hover:bg-orange-400 active:bg-orange-300`;
 const opBtnDisabled = `bg-orange-700 opacity-50 cursor-not-allowed`;
 
 const clearBtnBase = `
-  text-black text-2xl font-medium
-  rounded-full h-16 w-full
+  text-black text-2xl md:text-3xl font-medium
+  rounded-full h-16 md:h-20 lg:h-24 w-full
   transition-colors duration-100
 `;
 
@@ -79,30 +79,40 @@ function Calculator() {
 
   const getTextSize = (text: string) => {
     const len = text.length;
-    if (len <= 14) return "text-3xl";
-    if (len <= 18) return "text-2xl";
-    if (len <= 21) return "text-xl";
-    if (len <= 24) return "text-lg";
-    if (len <= 27) return "text-base";
-    return "text-sm";
+    if (len <= 13) return "text-3xl md:text-4xl lg:text-5xl";
+    if (len <= 18) return "text-2xl md:text-3xl lg:text-4xl";
+    if (len <= 22) return "text-xl md:text-2xl lg:text-3xl";
+    if (len <= 27) return "text-lg md:text-xl lg:text-2xl";
+    if (len <= 33) return "text-base md:text-lg lg:text-xl";
+    return "text-sm md:text-base lg:text-lg";
   };
 
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center p-4">
-      <div className="bg-neutral-900 rounded-3xl p-6 w-full max-w-sm shadow-2xl">
-        <div className="bg-neutral-800 rounded-2xl p-4 mb-4 min-h-[100px] flex flex-col justify-end">
-          <div className={`text-gray-400 text-right font-mono break-all h-6 ${getTextSize(expression)}`}>
+    <div className="min-h-screen min-w-[320px] bg-black flex items-center justify-center p-2">
+      <div
+        className="bg-neutral-900 rounded-3xl p-4 md:p-6 lg:p-8 w-full
+        max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl shadow-2xl"
+      >
+        <div
+          className="bg-neutral-800 rounded-2xl p-4 md:p-6 mb-4 md:mb-6
+          min-h-[100px] md:min-h-[120px] lg:min-h-[140px] flex flex-col justify-end"
+        >
+          <div
+            className={`text-gray-400 text-right font-mono break-all
+            h-7 md:h-8 lg:h-10 ${getTextSize(expression)}`}
+          >
             {expression}
           </div>
           <div
-            className={`text-white text-right font-mono mt-2 break-all ${getTextSize(displayText)}`}
+            className={`text-white text-right font-mono mt-2 md:mt-3 break-all
+              ${getTextSize(displayText)}`}
             data-testid="display"
           >
             {displayText}
           </div>
         </div>
 
-        <div className="grid grid-cols-4 gap-3">
+        <div className="grid grid-cols-4 gap-3 md:gap-4">
           <button className={opBtnClass} onClick={() => calc.handle("s")} disabled={processing}>
             &#x221A;x
           </button>
@@ -159,7 +169,7 @@ function Calculator() {
             .
           </button>
           <button className={numBtnClass} onClick={() => calc.handle("t")} disabled={processing}>
-            +/-
+            &#x00B1;
           </button>
           <button className={opBtnClass} onClick={() => calc.handle("+")} disabled={processing}>
             +

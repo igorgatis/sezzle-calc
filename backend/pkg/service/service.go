@@ -3,7 +3,9 @@ package service
 import (
 	"fmt"
 	"log"
+	"math/rand"
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
@@ -42,6 +44,15 @@ func NewRest(cfg Config) *restService {
 	if cfg.AllowCORS {
 		log.Println("CORS headers enabled")
 		engine.Use(rest.CORSMiddleware())
+	}
+
+	if cfg.ArtificialDelayMs > 0 {
+		log.Printf("Artificial delay enabled: 0-%dms", cfg.ArtificialDelayMs)
+		engine.Use(func(c *gin.Context) {
+			delay := time.Duration(rand.Intn(cfg.ArtificialDelayMs)) * time.Millisecond
+			time.Sleep(delay)
+			c.Next()
+		})
 	}
 
 	rest.RegisterCalculatorV1(engine, calculator.New())

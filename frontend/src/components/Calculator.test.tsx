@@ -165,9 +165,9 @@ describe("Calculator", () => {
   it("toggles sign with +/- button", () => {
     render(<Calculator />);
     fireEvent.click(screen.getByText("5"));
-    fireEvent.click(screen.getByText("+/-"));
+    fireEvent.click(screen.getByRole("button", { name: "±" }));
     expect(screen.getByTestId("display")).toHaveTextContent("-5");
-    fireEvent.click(screen.getByText("+/-"));
+    fireEvent.click(screen.getByRole("button", { name: "±" }));
     expect(screen.getByTestId("display")).toHaveTextContent("5");
   });
 
@@ -314,20 +314,20 @@ describe("Calculator", () => {
       expect(display).toHaveClass("text-lg");
     });
 
-    it("uses text-base for numbers 25-27 chars", () => {
+    it("uses text-base for numbers 28-33 chars", () => {
       render(<Calculator />);
       const btn = screen.getByRole("button", { name: "1" });
-      for (let i = 0; i < 26; i++) {
+      for (let i = 0; i < 30; i++) {
         fireEvent.click(btn);
       }
       const display = screen.getByTestId("display");
       expect(display).toHaveClass("text-base");
     });
 
-    it("uses smallest text for very long numbers (28+ chars)", () => {
+    it("uses smallest text for very long numbers (34+ chars)", () => {
       render(<Calculator />);
       const btn = screen.getByRole("button", { name: "1" });
-      for (let i = 0; i < 30; i++) {
+      for (let i = 0; i < 35; i++) {
         fireEvent.click(btn);
       }
       const display = screen.getByTestId("display");

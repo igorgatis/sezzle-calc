@@ -43,6 +43,8 @@ make run
 This make target sets `ENABLE_SWAGGER=true` and thus exposes the API Swagger
 documentation at http://localhost:3001/swagger/index.html
 
+![Swagger UI](docs/images/swagger.png)
+
 ## API Examples
 
 The backend exposes REST endpoints at `/v1/*`. Examples:

@@ -2,6 +2,8 @@
 
 A Next.js application that serves the calculator UI and proxies API requests to the backend.
 
+![Calculator UI](docs/images/calc.png)
+
 ## Configuration
 
 Environment variables:

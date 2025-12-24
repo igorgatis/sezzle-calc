@@ -1,7 +1,7 @@
 # Calculator Services
 A full-stack calculator application.
 
-https://github.com/igorgatis/sezzle-calc/raw/main/docs/images/demo.webm
+![Demo](docs/images/demo.gif)
 
 This repository has the following revelant folders:
 * [docs](./docs/): relvent documentation meant for humans and AI.

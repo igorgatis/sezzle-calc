@@ -3,4 +3,4 @@
 - Only add comments when code is not obvious
 - Avoid lenghty documentation
 - Don't use emojis
-- Try to keep code below 100 cols
+- Try to keep code below 120 cols

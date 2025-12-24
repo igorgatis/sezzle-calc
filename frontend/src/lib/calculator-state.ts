@@ -1,7 +1,7 @@
-import * as api from '../api/calculator';
+import * as api from "@/lib/api";
 
-const DIGITS = '0123456789.';
-const OPERATORS = '+-*/^%scdt=';
+const DIGITS = "0123456789.";
+const OPERATORS = "+-*/^%scdt=";
 const INSTRUCTIONS = DIGITS + OPERATORS;
 
 export function isInstruction(inst: string): boolean {
@@ -14,6 +14,7 @@ export interface CalculatorSnapshot {
   operator: string | null;
   resetDisplay: boolean;
   error: string | null;
+  processing: boolean;
 }
 
 export type StateChangeListener = (state: CalculatorSnapshot) => void;
@@ -24,6 +25,7 @@ export class CalculatorState {
   private operator: string | null = null;
   private resetDisplay: boolean = false;
   private error: string | null = null;
+  private processing: boolean = false;
 
   private listener: StateChangeListener | null = null;
 
@@ -33,7 +35,6 @@ export class CalculatorState {
 
   private notify(): void {
     this.listener?.(this.snapshot());
-    console.log(this.snapshot());
   }
 
   snapshot(): CalculatorSnapshot {
@@ -43,7 +44,25 @@ export class CalculatorState {
       operator: this.operator,
       resetDisplay: this.resetDisplay,
       error: this.error,
+      processing: this.processing,
     };
+  }
+
+  isProcessing(): boolean {
+    return this.processing;
+  }
+
+  getDisplay(): string {
+    return this.error || this.display;
+  }
+
+  getExpression(): string {
+    if (this.error) return "";
+
+    if (this.operand !== null && this.operator !== null) {
+      return `${this.operand} ${this.operator}`;
+    }
+    return "";
   }
 
   private clear(): void {
@@ -52,6 +71,7 @@ export class CalculatorState {
     this.operator = null;
     this.resetDisplay = false;
     this.error = null;
+    this.processing = false;
   }
 
   async handleSequence(sequence: string): Promise<void> {
@@ -62,12 +82,7 @@ export class CalculatorState {
 
   async handle(inst: string): Promise<void> {
     if (!isInstruction(inst)) {
-      throw Error(`Invalid instruction: ${inst}`)
-    }
-
-    if (this.error && inst !== "c") {
-       // Error state logic handled in specific methods or reset by them
-       this.clear();
+      throw Error(`Invalid instruction: ${inst}`);
     }
 
     if (/[0-9]/.test(inst)) {
@@ -79,7 +94,7 @@ export class CalculatorState {
     } else if (inst === "d") {
       this.handleDelete();
     } else if (inst === "s") {
-      this.handleSqrt();
+      await this.handleSqrt();
     } else if (inst === "t") {
       this.handleToggleSign();
     } else if (["+", "-", "*", "/", "%", "^"].includes(inst)) {
@@ -90,28 +105,9 @@ export class CalculatorState {
     this.notify();
   }
 
-  getDisplay(): string {
-    if (this.error) {
-        return this.error;
-    }
-    return this.display;
-  }
-
-  getExpression(): string {
-    if (this.operand !== null && this.operator !== null) {
-      return `${this.operand} ${this.operator}`;
-    }
-    return '';
-  }
-
   private handleDigit(digit: string): void {
     if (this.error) {
-        this.error = null;
-        this.display = digit;
-        this.resetDisplay = false;
-        this.operand = null;
-        this.operator = null;
-        return;
+      this.clear();
     }
 
     if (this.resetDisplay) {
@@ -128,12 +124,7 @@ export class CalculatorState {
 
   private handleDot(): void {
     if (this.error) {
-        this.error = null;
-        this.display = "0.";
-        this.resetDisplay = false;
-        this.operand = null;
-        this.operator = null;
-        return;
+      this.clear();
     }
 
     if (this.resetDisplay) {
@@ -155,10 +146,10 @@ export class CalculatorState {
   }
 
   private handleDelete(): void {
-    if (this.error) return; 
+    if (this.error) return;
 
     if (this.resetDisplay) {
-        return;
+      return;
     }
 
     if (this.display.length > 1) {
@@ -168,16 +159,16 @@ export class CalculatorState {
     }
   }
 
-  private handleSqrt(): void {
+  private async handleSqrt(): Promise<void> {
     if (this.error) return;
 
-    const val = parseFloat(this.display);
-    if (val < 0) {
-        this.error = "Error";
-        this.resetDisplay = true;
-    } else {
-        this.display = Math.sqrt(val).toString();
-        this.resetDisplay = true; 
+    this.operand = this.display;
+    this.operator = "s";
+    await this.calculate();
+    if (!this.error) {
+      this.operator = null;
+      this.operand = null;
+      this.resetDisplay = true;
     }
   }
 
@@ -192,10 +183,10 @@ export class CalculatorState {
     if (this.error) return;
 
     if (this.operator !== null && !this.resetDisplay) {
-        await this.calculate();
-        if (this.error) return;
+      await this.calculate();
+      if (this.error) return;
     }
-    
+
     this.operand = this.display;
     this.operator = op;
     this.resetDisplay = true;
@@ -205,35 +196,53 @@ export class CalculatorState {
     if (this.error) return;
 
     if (this.operator !== null && this.operand !== null) {
-        await this.calculate();
-        // If calculation caused error, it's set in calculate
-        if (!this.error) {
-            this.operator = null;
-            this.operand = null;
-            this.resetDisplay = true;
-        }
+      await this.calculate();
+      if (!this.error) {
+        this.operator = null;
+        this.operand = null;
+        this.resetDisplay = true;
+      }
     }
   }
 
   private async calculate(): Promise<void> {
     const a = this.operand!;
     const b = this.display;
-    let res = '0';
+    let res = "0";
+    this.processing = true;
+    const timer = setTimeout(() => this.notify(), 300);
     try {
       switch (this.operator) {
-        case '+': res = await api.add(a, b); break;
-        case '-': res = await api.subtract(a, b); break;
-        case '*': res = await api.multiply(a, b); break;
-        case '/': res = await api.divide(a, b); break;
-        case '^': res = await api.power(a, b); break;
-        case '%': res = await api.percentage(a, b); break;
-        case 's': res = await api.sqrt(a); break;
+        case "+":
+          res = await api.add(a, b);
+          break;
+        case "-":
+          res = await api.subtract(a, b);
+          break;
+        case "*":
+          res = await api.multiply(a, b);
+          break;
+        case "/":
+          res = await api.divide(a, b);
+          break;
+        case "^":
+          res = await api.power(a, b);
+          break;
+        case "%":
+          res = await api.percentage(a, b);
+          break;
+        case "s":
+          res = await api.sqrt(a);
+          break;
         default:
           throw new Error(`Failed to process ${this.operator}`);
       }
     } catch (err) {
-      this.error = err instanceof Error ? err.message : "API Error";;
-    } 
+      this.error = err instanceof Error ? err.message : "API Error";
+    } finally {
+      clearTimeout(timer);
+      this.processing = false;
+    }
     this.display = res;
   }
 }

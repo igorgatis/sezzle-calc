@@ -1,5 +1,6 @@
 .DS_Store
 .env*
+.next/
 build/
 coverage/
 dist/
@@ -8,3 +9,4 @@ npm-debug.log*
 pnpm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+next-env.d.ts

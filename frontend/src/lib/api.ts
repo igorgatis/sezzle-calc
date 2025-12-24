@@ -1,4 +1,4 @@
-const API_BASE = '/api';
+const API_BASE = "/api/v1";
 
 interface BinaryRequest {
   a: string;
@@ -16,11 +16,11 @@ interface CalculatorResponse {
 
 async function post<T>(endpoint: string, body: T): Promise<string> {
   const response = await fetch(`${API_BASE}${endpoint}`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
   });
-  const data = await response.json() as CalculatorResponse;
+  const data = (await response.json()) as CalculatorResponse;
   if (data.error) {
     throw new Error(data.error);
   }
@@ -31,29 +31,29 @@ async function post<T>(endpoint: string, body: T): Promise<string> {
 }
 
 export async function add(a: string, b: string): Promise<string> {
-  return post<BinaryRequest>('/add', { a, b });
+  return post<BinaryRequest>("/add", { a, b });
 }
 
 export async function subtract(a: string, b: string): Promise<string> {
-  return post<BinaryRequest>('/subtract', { a, b });
+  return post<BinaryRequest>("/subtract", { a, b });
 }
 
 export async function multiply(a: string, b: string): Promise<string> {
-  return post<BinaryRequest>('/multiply', { a, b });
+  return post<BinaryRequest>("/multiply", { a, b });
 }
 
 export async function divide(a: string, b: string): Promise<string> {
-  return post<BinaryRequest>('/divide', { a, b });
+  return post<BinaryRequest>("/divide", { a, b });
 }
 
 export async function power(a: string, b: string): Promise<string> {
-  return post<BinaryRequest>('/power', { a, b });
+  return post<BinaryRequest>("/power", { a, b });
 }
 
 export async function sqrt(a: string): Promise<string> {
-  return post<UnaryRequest>('/sqrt', { a });
+  return post<UnaryRequest>("/sqrt", { a });
 }
 
 export async function percentage(a: string, b: string): Promise<string> {
-  return post<BinaryRequest>('/percentage', { a, b });
+  return post<BinaryRequest>("/percentage", { a, b });
 }

@@ -15,11 +15,16 @@ interface CalculatorResponse {
 }
 
 async function post<T>(endpoint: string, body: T): Promise<string> {
-  const response = await fetch(`${API_BASE}${endpoint}`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
-  });
+  let response: Response;
+  try {
+    response = await fetch(`${API_BASE}${endpoint}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+  } catch {
+    throw new Error("Service unavailable");
+  }
   const data = (await response.json()) as CalculatorResponse;
   if (data.error) {
     throw new Error(data.error);

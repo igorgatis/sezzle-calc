@@ -43,13 +43,13 @@ async function proxyRequest(request: NextRequest, path: string[]) {
     const response = await fetch(url, fetchOptions);
     const contentType = response.headers.get("content-type") || "";
     if (!contentType.includes("application/json")) {
-      return NextResponse.json({ error: `Backend unavailable (${response.status})` }, { status: 502 });
+      return NextResponse.json({ error: "Service unavailable" }, { status: 502 });
     }
     const data = await response.json();
     return NextResponse.json(data, { status: response.status });
   } catch (error) {
     console.error("Proxy error:", error);
-    return NextResponse.json({ error: "Failed to connect to backend" }, { status: 502 });
+    return NextResponse.json({ error: "Service unavailable" }, { status: 502 });
   }
 }
 
